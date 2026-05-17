@@ -45,7 +45,7 @@ export default function LeadForm() {
       };
 
       // Save Lead to MongoDB & Trigger Webhook
-      const res = await fetch('http://localhost:5000/api/leads', {
+      const res = await fetch('https://home-seo.onrender.com/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
