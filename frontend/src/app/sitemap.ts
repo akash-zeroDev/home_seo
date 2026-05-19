@@ -1,12 +1,13 @@
 import { MetadataRoute } from 'next';
-// Import your SEO data matrix
 import { locations, subjects } from '../lib/seo-data';
 
+// These two lines are the "Secret Sauce" to fix the 404/General HTTP error
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Re-generate every hour
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Use your live Vercel URL here so Google accepts it
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://delta-home-tuitions.vercel.app';
 
-  // 1. Define your base static routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
@@ -22,10 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // 2. Dynamically generate the 1,500+ SEO pages
   const dynamicRoutes: MetadataRoute.Sitemap = [];
 
-  // If your arrays are loaded correctly, this will create a link for every combination
   if (locations && subjects) {
     locations.forEach((location) => {
       subjects.forEach((subject) => {
@@ -39,6 +38,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  // 3. Combine and return the massive list to Google
   return [...staticRoutes, ...dynamicRoutes];
 }
